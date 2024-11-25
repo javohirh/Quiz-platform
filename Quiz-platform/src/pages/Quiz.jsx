@@ -5,13 +5,14 @@ import { Link, useParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete, MdOutlineReadMore } from "react-icons/md";
 
-const SubCategory = () => {
+const QuizPage = () => {
   const { id } = useParams();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["quiz"],
-    queryFn: () => request.get(REQUESTS.sub_category).then(data),
+    queryKey: ["quizzes"],
+    queryFn: () => request.get(REQUESTS.quiz).then(data),
   });
+  console.log(data);
 
   if (isLoading) {
     return (
@@ -45,7 +46,7 @@ const SubCategory = () => {
       </Link>
       <div className=" flex flex-wrap gap-[20px] justify-center">
         {data?.data?.data
-          ?.filter((product) => product.categoryId === id)
+          ?.filter((product) => product.subCategoryId === id)
           .map((product) => {
             return (
               <div
@@ -55,7 +56,7 @@ const SubCategory = () => {
                 <input
                   id="edit"
                   name="edit"
-                  value={product.title}
+                  value={product.text}
                   className="mb-2 text-2xl cursor-pointer bg-transparent font-bold tracking-tight text-gray-900 dark:text-white"
                 />
 
@@ -74,7 +75,7 @@ const SubCategory = () => {
                     <MdDelete size={24} />
                     Delete
                   </button>
-                  <Link to={`/quiz/${product.id}`}>
+                  <Link to={`/option/${product.id}`}>
                     <button className="bg-green-600 py-[10px] px-[20px] rounded-xl items-center text-white flex gap-[10px]">
                       More <MdOutlineReadMore size={24} />
                     </button>
@@ -88,4 +89,4 @@ const SubCategory = () => {
   );
 };
 
-export default SubCategory;
+export default QuizPage;

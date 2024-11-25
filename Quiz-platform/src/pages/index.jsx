@@ -19,7 +19,7 @@ const QuizCreate = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const mutation = useMutation({
+  const postMutation = useMutation({
     mutationFn: (value) => {
       request
         .post(REQUESTS.category_api, {
@@ -41,7 +41,7 @@ const QuizCreate = () => {
                 })
                 .then((quiz) => {
                   request.post(REQUESTS.option, {
-                    text: value.Quiz,
+                    text: value.Option,
                     isCorrect: value.checked,
                     quizId: quiz.data,
                   });
@@ -59,10 +59,9 @@ const QuizCreate = () => {
     queryKey: ["category"],
     queryFn: () => request.get("/category"),
   });
-  console.log(data);
 
   const onSubmit = (value) => {
-    mutation.mutate(value);
+    postMutation.mutate(value);
     reset();
   };
   if (isLoading) {
@@ -146,7 +145,7 @@ const QuizCreate = () => {
                   <MdDelete size={24} />
                   Delete
                 </button>
-                <Link to="/sub">
+                <Link to={`/sub/${product.id}`}>
                   <button className="bg-green-600 py-[10px] px-[20px] rounded-xl items-center text-white flex gap-[10px]">
                     More <MdOutlineReadMore size={24} />
                   </button>
